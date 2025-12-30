@@ -33,7 +33,7 @@ export class User {
   @Column({ default: 'https://i.pravatar.cc/300'})
   avatar: string
 
-  @Column({ length: 24 })
+  @Column({ length: 255 })
   password: string;
 
   @Column({

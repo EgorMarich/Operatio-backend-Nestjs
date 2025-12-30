@@ -26,7 +26,7 @@ async function bootstrap() {
   app.use(
     session({
       store: redisStore,
-      secret: config.getOrThrow<string>('REDIS_SECRET'),
+      secret: config.getOrThrow<string>('SESSION_SECRET'),
       name: config.getOrThrow<string>('SESSION_NAME'),
       resave: false,
       saveUninitialized: false,
@@ -34,7 +34,7 @@ async function bootstrap() {
         domain: config.getOrThrow<string>('SESSION_DOMAIN'),
         maxAge: 18e5,
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'lax',
       },
     }),
