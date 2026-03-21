@@ -12,6 +12,7 @@ import { LoginDto } from './dto/login.dto';
 import { Request } from 'express';
 import { identity } from 'rxjs';
 import { MeResponseDto } from './dto/me-response.dto';
+import { getRandomAvatarColor } from './utils/avatar.utils';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
   async registerOwner(registerOwnerDto: RegisterOwnerDto): Promise<RegisterResponseDto> {
   const { email, password, name, dataCompany } = registerOwnerDto;
 
-  
+  console.log(email)
   // if (!companyData.slug) {
   //   companyData.slug = this.generateSlug(companyData.name);
   // }
@@ -41,6 +42,8 @@ export class AuthService {
     const existingUser = await queryRunner.manager.findOne(User, {
       where: { email }
     });
+
+    console.log(existingUser)
 
     if (existingUser) {
       throw new ConflictException({
@@ -80,7 +83,8 @@ export class AuthService {
       name,
       role: UserRole.OWNER,
       isActive: true,
-      company: savedCompany
+      company: savedCompany,
+      avatarColor: getRandomAvatarColor(),
     });
 
     const savedUser = await queryRunner.manager.save(User, user);
@@ -134,6 +138,8 @@ export class AuthService {
     return {
       email: user.email,
       name: user.name,
+      avatar: user.avatar,
+      avatarColor: user.avatarColor,
       isAuthenticated: true
     }
   }
