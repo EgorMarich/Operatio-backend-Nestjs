@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { CompanyInvitation } from './company-invitation.entity'
+import { Department } from 'src/departments/entities/departments.entity';
 
 @Entity('companies')
 export class Company {
@@ -10,7 +11,7 @@ export class Company {
   @Column()
   name: string;
 
-  @Column({ unique: true })
+  @Column()
   slug: string;
 
   @Column({ nullable: true })
@@ -55,6 +56,8 @@ export class Company {
   @OneToMany(() => User, user => user.company)
   employees: User[];
 
+  @OneToMany(() => Department, dept => dept.company)
+  departments: Department[];
 
   @OneToMany(() => CompanyInvitation, invitation => invitation.company)
   invitations: CompanyInvitation[];
