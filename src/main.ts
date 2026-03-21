@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
     prefix: config.getOrThrow<string>('SESSION_FOLDER'),
   });
 
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.use(
@@ -32,7 +35,7 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         domain: config.getOrThrow<string>('SESSION_DOMAIN'),
-        maxAge: 18e5,
+        maxAge: 432e5,
         httpOnly: true,
         secure: false,
         sameSite: 'lax',
