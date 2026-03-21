@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Task } from 'src/tasks/entities/task.entity';
 import { Company } from 'src/companies/entities/company.entity';
+import { Department } from 'src/departments/entities/departments.entity';
 
 export enum UserRole {
   OWNER = 'owner',
@@ -30,8 +31,11 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ default: 'https://i.pravatar.cc/300'})
-  avatar: string
+  @Column({ nullable: true })
+  avatar: string; 
+
+  @Column({ length: 7, default: '#5B8FF9' })
+  avatarColor: string;
 
   @Column({ length: 255 })
   password: string;
@@ -61,6 +65,13 @@ export class User {
 
   @Column({ nullable: true })
   companyId: number;
+
+  @Column({ nullable: true })
+  departmentId: number | null;
+
+  @ManyToOne(() => Department, dept => dept.members, { nullable: true })
+  department: Department;
+
 
   @OneToMany(() => Task, task => task.creator)
   createdTasks: Task[];
