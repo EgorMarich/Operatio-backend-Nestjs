@@ -4,10 +4,12 @@ import { TasksController } from './tasks.controller';
 import { Task } from './entities/task.entity';
 import { FileAttachment } from './entities/file-attachemnt.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Comment } from './entities/comment.entity';
+import { CommentsModule } from './comments/comments.module';
+import { User } from 'src/users/entities/user.entity';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task, Comment, FileAttachment])],
+  imports: [TypeOrmModule.forFeature([Task, FileAttachment, User]), UsersModule, CommentsModule],
   controllers: [TasksController],
   providers: [TasksService],
 })

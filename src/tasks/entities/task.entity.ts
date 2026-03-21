@@ -10,7 +10,7 @@ import {
   JoinColumn
 } from "typeorm";
 import { User } from "src/users/entities/user.entity";
-import { Comment } from "./comment.entity";
+import { Comment } from '../comments/entities/comment.entity';
 import { FileAttachment } from "./file-attachemnt.entity";
 
 export enum Status {
@@ -33,7 +33,7 @@ export class Task {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'text', default: '' })
   description: string;
 
   @Column({
@@ -88,4 +88,8 @@ export class Task {
 
   commentCount?: number;
   fileCount?: number;
+
+  constructor(partial?: Partial<Task>) {
+    Object.assign(this, partial);
+  }
 }

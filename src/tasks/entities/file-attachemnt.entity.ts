@@ -34,4 +34,8 @@ export class FileAttachment {
 
   @Column()
   uploadedById: number;
+
+  constructor(partial?: Partial<FileAttachment>) {
+    Object.assign(this, partial);
+  }
 }
