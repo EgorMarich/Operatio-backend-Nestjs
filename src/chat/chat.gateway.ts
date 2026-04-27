@@ -3,8 +3,9 @@ import {
   ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { ChatService } from './Chat.service';
-import { JwtService }] from '@nestjs/jwt'
+
+import { JwtService } from '@nestjs/jwt'
+import { ChatService } from './chat.service';
 
 
 @WebSocketGateway({ cors: { origin: '*' }, namespace: 'chat' })

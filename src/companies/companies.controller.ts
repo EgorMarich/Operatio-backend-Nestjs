@@ -20,37 +20,37 @@ export class CompaniesController {
     return this.companiesService.acceptInvitation(dto);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Post('invitations')
   createInvitation(@Req() req, @Body() dto: InviteEmployeeDto) {
     return this.companiesService.createInvitation(req.user.id, dto);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Get('invitations')
   getInvitations(@Req() req) {
     return this.companiesService.getInvitations(req.user.id);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Delete('invitations/:id')
   cancelInvitation(@Req() req, @Param('id') id: string) {
     return this.companiesService.cancelInvitation(req.user.id, id);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Get('employees')
   getEmployees(@Req() req) {
     return this.companiesService.getEmployees(req.user.id);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Patch('employees/:id/role')
   updateRole(@Req() req, @Param('id') id: string, @Body('role') role: UserRole) {
     return this.companiesService.updateEmployeeRole(req.user.id, +id, role);
   }
 
-  @UseGuards(AuthGuardCustom)
+  // @UseGuards(AuthGuardCustom)
   @Delete('employees/:id')
   removeEmployee(@Req() req, @Param('id') id: string) {
     return this.companiesService.removeEmployee(req.user.id, +id);

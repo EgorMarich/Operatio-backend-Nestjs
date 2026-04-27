@@ -31,11 +31,9 @@ export class CompaniesService {
     return user;
   }
 
-  // Создать инвайт — возвращает ссылку
   async createInvitation(inviterId: number, dto: InviteEmployeeDto): Promise<{ link: string; token: string }> {
     const inviter = await this.assertCanInvite(inviterId);
 
-    // owner не может приглашать других owner
     if (dto.role === UserRole.OWNER && inviter.role !== UserRole.OWNER) {
       throw new ForbiddenException('Только owner может назначать роль owner');
     }
@@ -59,7 +57,6 @@ export class CompaniesService {
     return { link, token };
   }
 
-  // Получить инфо об инвайте по токену (для страницы регистрации)
   async getInvitationByToken(token: string): Promise<CompanyInvitation> {
     const invitation = await this.invitationRepo.findOne({
       where: { token },
@@ -77,11 +74,9 @@ export class CompaniesService {
     return invitation;
   }
 
-  // Принять инвайт — регистрация сотрудника
   async acceptInvitation(dto: AcceptInviteDto): Promise<User> {
     const invitation = await this.getInvitationByToken(dto.token);
 
-    // Проверяем нет ли уже такого пользователя
     const existing = await this.userRepo.findOneBy({ email: invitation.email });
     if (existing) throw new BadRequestException('Пользователь с таким email уже существует');
 
@@ -98,7 +93,6 @@ export class CompaniesService {
 
     const savedUser = await this.userRepo.save(user);
 
-    // Помечаем инвайт как принятый
     invitation.status = 'accepted';
     invitation.acceptedById = savedUser.id;
     invitation.acceptedAt = new Date();
@@ -107,7 +101,6 @@ export class CompaniesService {
     return savedUser;
   }
 
-  // Список сотрудников компании
   async getEmployees(userId: number) {
     const user = await this.userRepo.findOneBy({ id: userId });
     if (!user) throw new NotFoundException();
@@ -119,7 +112,6 @@ export class CompaniesService {
     });
   }
 
-  // Список активных инвайтов
   async getInvitations(userId: number) {
     const user = await this.assertCanInvite(userId);
     return this.invitationRepo.find({
@@ -129,7 +121,6 @@ export class CompaniesService {
     });
   }
 
-  // Отменить инвайт
   async cancelInvitation(userId: number, invitationId: string) {
     await this.assertCanInvite(userId);
     const invitation = await this.invitationRepo.findOneBy({ id: invitationId });
@@ -138,7 +129,6 @@ export class CompaniesService {
     return this.invitationRepo.save(invitation);
   }
 
-  // Изменить роль сотрудника
   async updateEmployeeRole(userId: number, employeeId: number, role: UserRole) {
     const user = await this.assertCanInvite(userId);
     if (role === UserRole.OWNER && user.role !== UserRole.OWNER) {
@@ -157,7 +147,6 @@ export class CompaniesService {
   const employee = await this.userRepo.findOneBy({ id: employeeId, companyId: user.companyId ?? undefined});
   if (!employee) throw new NotFoundException('Сотрудник не найден');
 
-  // employee.companyId = ;
   employee.departmentId = null;
   await this.userRepo.save(employee);
 }

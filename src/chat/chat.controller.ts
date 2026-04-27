@@ -8,7 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 import { ChatGateway } from './chat.gateway';
-import { ChatService } from './Chat.service';
+import { ChatService } from './chat.service';
 import { CreateChatDto } from './entities/create-chat.dto';
 import { SendMessageDto } from './entities/send-message.dto';
 

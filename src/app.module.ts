@@ -8,6 +8,8 @@ import { CompaniesModule } from './companies/companies.module';
 import { EventsModule } from './events/events.module';
 import { CommentsModule } from './tasks/comments/comments.module';
 import { MailAccountsModule } from './mail-accounts/mail-accounts.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuardCustom } from './auth/guards/auth.guard';
 
 @Module({
   imports: [
@@ -33,6 +35,11 @@ import { MailAccountsModule } from './mail-accounts/mail-accounts.module';
     CommentsModule
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuardCustom,
+    // },
+  ],
 })
 export class AppModule {}
